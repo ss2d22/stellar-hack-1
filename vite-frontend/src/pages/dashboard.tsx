@@ -21,7 +21,6 @@ import {
   History,
   Calendar,
 } from "lucide-react";
-
 // Mock data for transactions
 const transactions = [
   { id: 1, type: "loan", amount: 5000, date: "2023-06-01", status: "active" },
@@ -178,6 +177,42 @@ export default function Dashboard() {
                 </form>
               </CardContent>
             </Card>
+            <div className="grid grid-cols-2 gap-4 h-1/3 mt-10">
+              {lent.map((record) => (
+                <Card
+                  className="flex flex-row bg-[#171717] border-transparent"
+                  key={record.id}
+                >
+                  <CardHeader className="items-center justify-center w-1/2 space-y-4">
+                    <CardTitle className="text-4xl font-bold text-[#F3F3F3]">
+                      {record.amount} XLM
+                    </CardTitle>
+                    <Progress value={33} className="border-2 w-[50%] h-4" />
+                  </CardHeader>
+                  <CardContent className="flex flex-col items-start mt-6">
+                    <p className="text-gray-200 flex flex-row">
+                      <CircleUserRound className="pr-2" />
+                      {record.account}
+                    </p>
+                    <p className="text-gray-200 flex flex-row">
+                      <ArrowUp className="pr-2" />
+                      {record.interest_rate} interest
+                    </p>
+                    <p className="text-gray-200 flex flex-row">
+                      <History className="pr-2" />
+                      {record.loan_term}
+                    </p>
+                    <p className="text-gray-200 flex flex-row">
+                      <Calendar className="pr-2" />
+                      {record.date}
+                    </p>
+                    <Button type="submit" className="w-full mt-5 bg-[#737373]">
+                      Return now
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
         </Tabs>
       </div>
@@ -186,12 +221,12 @@ export default function Dashboard() {
         <div className="grid grid-cols-2 gap-4 h-1/3">
           <StatCard
             title="Total Lent"
-            value={`$${ownerStats.totalLent}`}
+            value={`${ownerStats.totalLent} XLM`}
             icon={<ArrowUpIcon className="h-4 w-4 text-green-500" />}
           />
           <StatCard
             title="Total Borrowed"
-            value={`$${ownerStats.totalBorrowed}`}
+            value={`${ownerStats.totalBorrowed} XLM`}
             icon={<ArrowDownIcon className="h-4 w-4 text-red-500" />}
           />
           <StatCard
@@ -230,16 +265,16 @@ export default function Dashboard() {
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm font-medium leading-none text-[#F3F3F3]">
-                      {transaction.type === "loan" ? "Loan" : "Lend"} - $
-                      {transaction.amount}
+                      {transaction.type === "loan" ? "Loan" : "Lend"} -
+                      {transaction.amount} XLM
                     </p>
                     <p className="ml-9 text-sm text-[#B9B9B9]">
                       {transaction.date} - {transaction.status}
                     </p>
                   </div>
                   <div className="ml-auto font-medium text-[#F3F3F3]">
-                    {transaction.type === "loan" ? "-" : "+"}$
-                    {transaction.amount}
+                    {transaction.type === "loan" ? "-" : "+"}
+                    {transaction.amount} XLM
                   </div>
                 </div>
               ))}

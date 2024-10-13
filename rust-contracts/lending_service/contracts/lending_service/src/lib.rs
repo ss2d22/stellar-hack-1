@@ -1,23 +1,23 @@
 #![no_std]
-use soroban_sdk::{
-    contract, contractimpl, contracttype, Address, Env,
-};
+use soroban_sdk::{contract, contractimpl, contracttype, Address, BytesN, Env, Vec};
 
-mod user;
-mod loan;
 mod admin;
 mod errors;
+mod loan;
+mod user;
 
-use user::UserProfile;
 use admin::GlobalParams;
 use errors::Error;
+use user::UserProfile;
 
 #[derive(Clone)]
 #[contracttype]
 pub enum DataKey {
     Admin,
     UserProfile(Address),
-    LoanStatus(Address),
+    LoanRequest(BytesN<32>),
+    LoanRequestsList,
+    Loan(BytesN<32>),
     GlobalParams,
 }
 
@@ -34,16 +34,28 @@ impl LendingService {
         user::register(env, user)
     }
 
-    pub fn request_loan(env: Env, user: Address, amount: u32) -> Result<(), Error> {
-        loan::request(env, user, amount)
+    pub fn request_loan(env: Env, borrower: Address, amount: u32) -> Result<BytesN<32>, Error> {
+        loan::request_loan(env, borrower, amount)
     }
 
-    pub fn make_payment(env: Env, user: Address) -> Result<(), Error> {
-        loan::make_payment(env, user)
+    pub fn list_loan_requests(env: Env) -> Vec<BytesN<32>> {
+        loan::list_loan_requests(env)
     }
 
-    pub fn check_loan_status(env: Env, user: Address) -> Result<(), Error> {
-        loan::check_status(env, user)
+    pub fn get_loan_request(env: Env, loan_id: BytesN<32>) -> Result<loan::LoanRequest, Error> {
+        loan::get_loan_request(env, loan_id)
+    }
+
+    pub fn fund_loan(env: Env, lender: Address, loan_id: BytesN<32>) -> Result<(), Error> {
+        loan::fund_loan(env, lender, loan_id)
+    }
+
+    pub fn make_payment(env: Env, borrower: Address) -> Result<(), Error> {
+        loan::make_payment(env, borrower)
+    }
+
+    pub fn check_loan_status(env: Env, borrower: Address) -> Result<(), Error> {
+        loan::check_status(env, borrower)
     }
 
     pub fn get_user_profile(env: Env, user: Address) -> Result<UserProfile, Error> {
@@ -62,3 +74,4 @@ impl LendingService {
         admin::ban_user(env, admin, user)
     }
 }
+

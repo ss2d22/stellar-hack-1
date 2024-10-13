@@ -1,5 +1,5 @@
 use soroban_sdk::{contracttype, Address, Env};
-use crate::{DataKey, Error, user};
+use crate::{DataKey, Error};
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 #[contracttype]
@@ -19,39 +19,51 @@ pub fn initialize(env: Env, admin: Address) -> Result<(), Error> {
         base_interest_rate: 500,
         min_credit_score: 500,
         max_loan_amount: 10000,
-        payment_period: 2592000,
+        payment_period: 2592000, 
         max_missed_payments: 3,
     };
-    env.storage().instance().set(&DataKey::GlobalParams, &global_params);
+    env.storage()
+        .instance()
+        .set(&DataKey::GlobalParams, &global_params);
     env.storage().instance().set(&DataKey::Admin, &admin);
     Ok(())
 }
 
 pub fn update_params(env: Env, admin: Address, new_params: GlobalParams) -> Result<(), Error> {
     admin.require_auth();
-    let stored_admin: Address = env.storage().instance().get(&DataKey::Admin)
+    let stored_admin: Address = env
+        .storage()
+        .instance()
+        .get(&DataKey::Admin)
         .ok_or(Error::AdminNotSet)?;
     if admin != stored_admin {
         return Err(Error::Unauthorized);
     }
-    env.storage().instance().set(&DataKey::GlobalParams, &new_params);
+    env.storage()
+        .instance()
+        .set(&DataKey::GlobalParams, &new_params);
     Ok(())
 }
 
 pub fn ban_user(env: Env, admin: Address, user: Address) -> Result<(), Error> {
     admin.require_auth();
-    let stored_admin: Address = env.storage().instance().get(&DataKey::Admin)
+    let stored_admin: Address = env
+        .storage()
+        .instance()
+        .get(&DataKey::Admin)
         .ok_or(Error::AdminNotSet)?;
     if admin != stored_admin {
         return Err(Error::Unauthorized);
     }
-    let mut user_profile = user::get_profile(env.clone(), user.clone())?;
+    let mut user_profile = crate::user::get_profile(env.clone(), user.clone())?;
     user_profile.is_banned = true;
-    user::update_profile(env, user, user_profile)?;
+    crate::user::update_profile(env, user, user_profile)?;
     Ok(())
 }
 
 pub fn get_global_params(env: Env) -> Result<GlobalParams, Error> {
-    env.storage().instance().get(&DataKey::GlobalParams)
+    env.storage()
+        .instance()
+        .get(&DataKey::GlobalParams)
         .ok_or(Error::GlobalParamsNotSet)
 }

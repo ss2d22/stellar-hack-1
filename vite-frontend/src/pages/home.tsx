@@ -30,7 +30,7 @@ function Home() {
                   className="text-[#F3F3F3] hover:text-[#395BBF] transition-colors"
                   to="/login"
                 >
-                  Login
+                  Get Started
                 </Link>
               </div>
             </div>

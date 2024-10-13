@@ -8,7 +8,6 @@ import axios from "axios";
 import { PasskeyKit, PasskeyServer, SACClient } from "passkey-kit";
 import { Buffer } from "buffer";
 
-
 import {
   Card,
   CardContent,
@@ -20,14 +19,17 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { SquareUser, Key } from "lucide-react";
 import "../App.css";
-import { Footer } from "../components/footer";
-import { Navbar } from "../components/navbar";
+import { isConnected, setAllowed } from "@stellar/freighter-api";
+import getPublicKey from "@stellar/freighter-api";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [keyId, setKeyId] = useState(localStorage.getItem("sp:keyId") || "");
   const [contractId, setContractId] = useState("");
   const [loading, setLoading] = useState({});
-/*   const [balance, setBalance] = useState("");
+  const [publicKey, setPublicKey] = useState<string | null>(null);
+  const navigate = useNavigate();
+  /*   const [balance, setBalance] = useState("");
   const [signers, setSigners] = useState([]);
   const [loading, setLoading] = useState({}); */
 
@@ -44,7 +46,7 @@ const Login = () => {
     launchtubeJwt: import.meta.env.VITE_PRIVATE_LAUNCHTUBE_JWT,
     mercuryUrl: import.meta.env.VITE_PUBLIC_MERCURY_URL,
     mercuryJwt: import.meta.env.VITE_PRIVATE_MERCURY_JWT,
-});
+  });
 
   const native = new SACClient({
     rpcUrl: import.meta.env.VITE_PUBLIC_RPC_URL,
@@ -52,7 +54,7 @@ const Login = () => {
   }).getSACClient(import.meta.env.VITE_PUBLIC_NATIVE_CONTRACT_ID);
   console.log("native", native);
 
-/*   useEffect(() => {
+  /*   useEffect(() => {
     if (keyId && !contractId) {
       connectWallet(keyId);
     }
@@ -63,7 +65,7 @@ const Login = () => {
       console.log("Attempting to connect wallet...");
       const { contractId: cid } = await passkeyClient.connectWallet({
         keyId: kid,
-        getContractId: () => passkeyServer.getContractId({keyId}),
+        getContractId: () => passkeyServer.getContractId({ keyId }),
       });
       console.log("Wallet connected successfully:", cid);
       setContractId(cid);
@@ -75,7 +77,7 @@ const Login = () => {
     }
   };
 
-/*   const fetchBalance = async (cid) => {
+  /*   const fetchBalance = async (cid) => {
     try {
       setLoading((prev) => ({ ...prev, balance: true }));
       const { result } = await native.balance({ id: cid });
@@ -119,6 +121,39 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    const checkFreighter = async () => {
+      try {
+        const connected = await isConnected();
+        if (connected) {
+          const pubKey = await getPublicKey;
+          setPublicKey(pubKey);
+          navigate("/dashboard");
+        }
+      } catch (error) {
+        console.error("Error checking Freighter connection:", error);
+      }
+    };
+
+    checkFreighter();
+  }, []);
+
+  const handleConnectWallet = async () => {
+    try {
+      console.log("Connecting to Freighter...");
+
+      await setAllowed();
+      console.log("Allowed Freighter");
+
+      const { address } = await getPublicKey.getAddress();
+      console.log("Connected to Freighter:", address);
+
+      setPublicKey(address);
+    } catch (error) {
+      console.error("Error connecting to Freighter:", error);
+    }
+  };
+
   return (
     <>
       <div className="min-h-screen flex items-center justify-center bg-[#0B0406] -mt-20">
@@ -129,24 +164,25 @@ const Login = () => {
                 Welcome To Starlend!
               </CardTitle>
               <CardDescription className="text-center">
-                Sign-in/ sign-up using passkey
+                Sign-in/Sign-up using passkey or connect to your wallet
               </CardDescription>
             </CardHeader>
-              <CardContent className="space-y-4">
+            <CardContent className="space-y-4">
               <Button onClick={connectWallet} className="w-full">
-                  Sign In
-                </Button>
-                <Button onClick={onCreate} className="w-full">
-                  Sign Up
-                </Button>
-              </CardContent>
+                Sign In
+              </Button>
+              <Button onClick={onCreate} className="w-full">
+                Sign Up
+              </Button>
+              <Button onClick={handleConnectWallet} className="w-full">
+                Connect Wallet
+              </Button>
+            </CardContent>
           </Card>
         </div>
       </div>
     </>
   );
-}
+};
 
 export default Login;
-
-

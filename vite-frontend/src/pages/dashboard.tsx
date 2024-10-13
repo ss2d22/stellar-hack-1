@@ -21,6 +21,8 @@ import {
   History,
   Calendar,
 } from "lucide-react";
+import { Contract, networks } from "starlend";
+
 // Mock data for transactions
 const transactions = [
   { id: 1, type: "loan", amount: 5000, date: "2023-06-01", status: "active" },
@@ -75,7 +77,7 @@ const ownerStats = {
 };
 
 export default function Dashboard() {
-  const [loanAmount, setLoanAmount] = useState("");
+  const [loanAmount, setLoanAmount] = useState(0);
   const [interestRate, setInterestRate] = useState("");
 
   const handleLoanSubmit = (e: React.FormEvent) => {

@@ -12,10 +12,12 @@ import Dashboard from "./pages/dashboard";
 import { useStore } from "./store/useStore"; // Import Zustand store
 
 // PrivateRoute component to protect authenticated routes
+/*
 const PrivateRoute = ({ children }) => {
   const isAuthenticated = useStore((state) => state.isAuthenticated); // Use Zustand state
   return isAuthenticated ? children : <Navigate to="/login" />; // Redirect to login if not authenticated
 };
+*/
 
 function App() {
   return (
@@ -25,16 +27,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/offers" element={<Offer />} />
-        
+
         {/* Protected route: only accessible if authenticated */}
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
       <Footer />
     </div>

@@ -1,7 +1,10 @@
 "use client";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button"; // Adjust the import path based on your project structure
 import { SettingsIcon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { isConnected } from "@stellar/freighter-api";
+import getPublicKey from "@stellar/freighter-api";
 
 /*
 function a({ href, children }: { href: string; children: React.ReactNode }) {
@@ -24,6 +27,24 @@ function a({ href, children }: { href: string; children: React.ReactNode }) {
   */
 
 export function Navbar() {
+  const [publicKey, setPublicKey] = useState("");
+
+  useEffect(() => {
+    const checkFreighter = async () => {
+      try {
+        const connected = await isConnected();
+        if (connected) {
+          const pubKey = await getPublicKey;
+          setPublicKey(pubKey);
+        }
+      } catch (error) {
+        console.error("Error checking Freighter connection:", error);
+      }
+    };
+
+    checkFreighter();
+  }, []);
+
   return (
     <nav className="bg-[#0B0406] shadow-md">
       <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">

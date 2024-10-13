@@ -1,4 +1,4 @@
-use soroban_sdk::{contracterror};
+use soroban_sdk::contracterror;
 
 #[contracterror]
 #[derive(Copy, Clone, Debug, Eq, PartialEq, PartialOrd, Ord)]
@@ -16,4 +16,6 @@ pub enum Error {
     AdminNotSet = 10,
     AlreadyInitialized = 11,
     UserAlreadyRegistered = 12,
+    LoanNotFound = 13,
+    LoanAlreadyFunded = 14,
 }

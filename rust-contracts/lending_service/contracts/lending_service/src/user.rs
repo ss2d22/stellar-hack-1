@@ -11,6 +11,12 @@ pub struct UserProfile {
 }
 
 pub fn register(env: Env, user: Address) -> Result<(), Error> {
+    user.require_auth();
+
+    if env.storage().instance().has(&DataKey::UserProfile(user.clone())) {
+        return Err(Error::UserAlreadyRegistered);
+    }
+
     let user_profile = UserProfile {
         credit_score: 500,
         current_loan: 0,

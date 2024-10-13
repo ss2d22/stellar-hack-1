@@ -15,4 +15,5 @@ pub enum Error {
     ActiveLoanExists = 9,
     AdminNotSet = 10,
     AlreadyInitialized = 11,
+    UserAlreadyRegistered = 12,
 }

@@ -9,11 +9,11 @@ import Login from "./pages/login";
 import Home from "./pages/home";
 import Offer from "./pages/offer";
 import Dashboard from "./pages/dashboard";
-import { useAuthStore } from "./store/store"; // Import Zustand store
+import { useStore } from "./store/useStore"; // Import Zustand store
 
 // PrivateRoute component to protect authenticated routes
 const PrivateRoute = ({ children }) => {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated); // Use Zustand state
+  const isAuthenticated = useStore((state) => state.isAuthenticated); // Use Zustand state
   return isAuthenticated ? children : <Navigate to="/login" />; // Redirect to login if not authenticated
 };
 

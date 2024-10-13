@@ -77,7 +77,7 @@ const ownerStats = {
 };
 
 export default function Dashboard() {
-  const [loanAmount, setLoanAmount] = useState(0);
+  const [loanAmount, setLoanAmount] = useState("");
   const [interestRate, setInterestRate] = useState("");
 
   const handleLoanSubmit = (e: React.FormEvent) => {
@@ -148,28 +148,12 @@ export default function Dashboard() {
                         Amount
                       </Label>
                       <Input
-                        className="w-[75%]"
+                        className="w-[75%] text-[#F3F3F3]"
                         id="amount"
                         placeholder="Enter amount"
                         type="number"
                         value={loanAmount}
                         onChange={(e) => setLoanAmount(e.target.value)}
-                      />
-                    </div>
-                    <div className="flex flex-row space-x-3">
-                      <Label
-                        className="mt-3 w-[15%] text-[#F3F3F3]"
-                        htmlFor="interest"
-                      >
-                        Interest Rate
-                      </Label>
-                      <Input
-                        className="w-[75%]"
-                        id="interestRate"
-                        placeholder="Enter amount"
-                        type="number"
-                        value={interestRate}
-                        onChange={(e) => setInterestRate(e.target.value)}
                       />
                     </div>
                     <Button className="border-[#737373]" type="submit">
@@ -266,13 +250,15 @@ export default function Dashboard() {
                     )}
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm font-medium leading-none text-[#F3F3F3]">
-                      {transaction.type === "loan" ? "Loan" : "Lend"} -
-                      {transaction.amount} XLM
-                    </p>
-                    <p className="ml-9 text-sm text-[#B9B9B9]">
-                      {transaction.date} - {transaction.status}
-                    </p>
+                    <div className="flex flex-col space-y-2">
+                      <p className="text-sm font-medium leading-none text-[#F3F3F3]">
+                        {transaction.type === "loan" ? "Loan" : "Lend"} -
+                        {transaction.amount} XLM
+                      </p>
+                      <p className="ml-5 text-sm text-[#B9B9B9]">
+                        {transaction.date} - {transaction.status}
+                      </p>
+                    </div>
                   </div>
                   <div className="ml-auto font-medium text-[#F3F3F3]">
                     {transaction.type === "loan" ? "-" : "+"}

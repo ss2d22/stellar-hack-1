@@ -15,103 +15,110 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ShoppingCart } from "lucide-react";
+import { ArrowUp, Check, CircleUserRound, ShoppingCart } from "lucide-react";
 
-// Mock product data
-const products = [
+// Mock lent data
+const lent = [
   {
     id: 1,
-    name: "Smartphone X",
-    price: 699,
-    category: "Electronics",
-    image: "/placeholder.svg",
+    amount: 5000,
+    account: 0x123123,
+    date: "2023-06-01",
+    loan_term: "3 months",
+    interest_rate: "10%",
   },
   {
     id: 2,
-    name: "Laptop Pro",
-    price: 1299,
-    category: "Electronics",
-    image: "/placeholder.svg",
+    amount: 2000,
+    account: 0x123123,
+    date: "2023-06-05",
+    loan_term: "2 months",
+    interest_rate: "15%",
   },
   {
     id: 3,
-    name: "Wireless Headphones",
-    price: 199,
-    category: "Electronics",
-    image: "/placeholder.svg",
+    amount: 1000,
+    account: 0x123123,
+    date: "2023-06-10",
+    loan_term: "1 months",
+    interest_rate: "5%",
   },
   {
     id: 4,
-    name: "Running Shoes",
-    price: 89,
-    category: "Sports",
-    image: "/placeholder.svg",
+    amount: 3000,
+    account: 0x123123,
+    date: "2023-06-15",
+    loan_term: "2 weeks",
+    interest_rate: "10%",
   },
   {
     id: 5,
-    name: "Yoga Mat",
-    price: 29,
-    category: "Sports",
-    image: "/placeholder.svg",
+    amount: 5000,
+    account: 0x123123,
+    date: "2023-06-01",
+    loan_term: "3 months",
+    interest_rate: "10%",
   },
   {
     id: 6,
-    name: "Coffee Maker",
-    price: 79,
-    category: "Home",
-    image: "/placeholder.svg",
+    amount: 2000,
+    account: 0x123123,
+    date: "2023-06-05",
+    loan_term: "2 months",
+    interest_rate: "15%",
   },
   {
     id: 7,
-    name: "Desk Lamp",
-    price: 39,
-    category: "Home",
-    image: "/placeholder.svg",
+    amount: 1000,
+    account: 0x123123,
+    date: "2023-06-10",
+    loan_term: "1 months",
+    interest_rate: "5%",
   },
   {
     id: 8,
-    name: "Backpack",
-    price: 59,
-    category: "Fashion",
-    image: "/placeholder.svg",
+    amount: 3000,
+    account: 0x123123,
+    date: "2023-06-15",
+    loan_term: "2 weeks",
+    interest_rate: "10%",
   },
 ];
 
 export default function Offer() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("All");
-
-  const filteredProducts = products.filter(
-    (product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (categoryFilter === "All" || product.category === categoryFilter)
-  );
-
-  const categories = [
-    "All",
-    ...new Set(products.map((product) => product.category)),
-  ];
+  const [termFilter, setTermFilter] = useState("All");
+  const [rateFilter, setRateFilter] = useState("All");
+  const loanTerm = ["All", ...new Set(lent.map((lent) => lent.loan_term))];
+  const loanRate = ["All", ...new Set(lent.map((lent) => lent.interest_rate))];
 
   return (
     <div className="flex flex-col w-full py-8 bg-[#0B0406]">
       <h1 className="text-3xl font-bold mb-8 text-[#F3F3F3]">Current Offers</h1>
 
-      <div className="flex flex-col md:flex-row gap-4 mb-8 ml-20">
-        <Input
-          type="search"
-          placeholder="Search products..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
-        />
-        <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-          <SelectTrigger className="max-w-[180px]">
-            <SelectValue placeholder="Category" />
+      <div className="flex flex-col md:flex-row gap-4 mb-8 ml-20 ">
+        <Select value={termFilter} onValueChange={setTermFilter}>
+          <SelectTrigger className="max-w-[180px] bg-[#F3F3F3]">
+            <SelectValue placeholder="Term" />
           </SelectTrigger>
           <SelectContent>
-            {categories.map((category) => (
-              <SelectItem key={category} value={category}>
-                {category}
+            {loanTerm.map((term) => (
+              <SelectItem key={term} value={term}>
+                {term}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={rateFilter} onValueChange={setRateFilter}>
+          <SelectTrigger className="max-w-[180px] bg-[#F3F3F3]">
+            <SelectValue
+              className="text-[#F3F3F3]"
+              placeholder="Interest Rate"
+            />
+          </SelectTrigger>
+          <SelectContent>
+            {loanRate.map((rate) => (
+              <SelectItem key={rate} value={rate}>
+                {rate}
               </SelectItem>
             ))}
           </SelectContent>
@@ -119,26 +126,34 @@ export default function Offer() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-20">
-        {filteredProducts.map((product) => (
-          <Card key={product.id}>
+        {lent.map((lent) => (
+          <Card className="bg-[#171717] border-transparent" key={lent.id}>
             <CardHeader>
-              <p className="text-2xl font-bold mt-2">${product.price}</p>
+              <CardTitle className="text-4xl font-bold mt-2 text-[#F3F3F3]">
+                {lent.amount} XLM
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <CardTitle className="mb-2">{product.name}</CardTitle>
-              <p className="text-gray-600">{product.category}</p>
+              <p className="text-gray-200 flex flex-row">
+                <CircleUserRound className="pr-2" />
+                {lent.account}
+              </p>
+              <p className="text-gray-200 flex flex-row">
+                <ArrowUp className="pr-2" />
+                {lent.interest_rate} interest rate!
+              </p>
             </CardContent>
             <CardFooter>
               <Button className="w-full">
-                <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
+                <Check className="mr-2 h-4 w-4" /> Accept Offer
               </Button>
             </CardFooter>
           </Card>
         ))}
       </div>
 
-      {filteredProducts.length === 0 && (
-        <p className="text-center text-gray-500 mt-8">No products found.</p>
+      {lent.length === 0 && (
+        <p className="text-center text-gray-500 mt-8">No lents found.</p>
       )}
     </div>
   );

@@ -89,7 +89,7 @@ export function Navbar() {
                   className="text-[#F3F3F3] hover:text-[#395BBF] transition-colors"
                   to="/login"
                 >
-                  Login
+                  {isConnected ? "GBNQ..." : "Login"}
                 </Link>
               </div>
             </div>

@@ -17,12 +17,12 @@ Secure login and transaction signing using Face ID or fingerprint through Stella
 - React and Vite: Front-end technologies used alongside the Stellar JavaScript SDK for account and transaction management.
 - Passkeys and Freighter Wallet: Ensures secure user authentication and transaction signing.
 ## Key Stellar Features
-Soroban Smart Contracts: Enables decentralised lending with transparency and security.
-Fast, Low-Cost Transactions: Stellar’s consensus mechanism ensures quick, low-fee loan management.
-NPM Package Integration: Simplified by Stellar CLI for easy reuse of contract logic.
-Express Server for Passkey Integration: Enables secure and streamlined contract calls and transactions.
-Wallet Support: Robust wallet integration with Freighter and passkeys for secure transaction management.
-Usage
-Lenders: Create an account, browse borrower profiles, and decide where to lend based on the risk/reward assessment.
-Borrowers: Create an account, apply for a loan, and build your borrowing power by repaying loans to unlock larger amounts at lower interest rates.
-Authentication: Use Face ID or fingerprint (passkey) via the Freighter Wallet for secure login and transaction signing.
+- Soroban Smart Contracts: Enables decentralised lending with transparency and security.
+- Fast, Low-Cost Transactions: Stellar’s consensus mechanism ensures quick, low-fee loan management.
+- NPM Package Integration: Simplified by Stellar CLI for easy reuse of contract logic.
+- Express Server for Passkey Integration: Enables secure and streamlined contract calls and transactions.
+- Wallet Support: Robust wallet integration with Freighter and passkeys for secure transaction management.
+## Usage
+- Lenders: Create an account, browse borrower profiles, and decide where to lend based on the risk/reward assessment.
+- Borrowers: Create an account, apply for a loan, and build your borrowing power by repaying loans to unlock larger amounts at lower interest rates.
+- Authentication: Use Face ID or fingerprint (passkey) via the Freighter Wallet for secure login and transaction signing.

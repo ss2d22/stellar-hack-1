@@ -16,6 +16,125 @@ const passkeyServer = new PasskeyServer({
   mercuryJwt: process.env.PRIVATE_MERCURY_JWT,
 });
 
+/**
+ * Handles user registration.
+ * Users intially have 0 balance in their account.
+ * Registration timestamp is created.
+ */
+app.post("/api/register", async (req, res) => {
+  try {
+
+  } catch (error) {
+
+  }
+});
+
+/**
+ * Handles user login.
+ */
+app.post("/api/login", async (req, res) => {
+  try {
+
+  } catch (error) {
+
+  }
+});
+
+/**
+ * Queries account balance.
+ */
+app.get("/api/profile", async (req, res) => {
+  try {
+
+  } catch (error) {
+
+  }
+});
+
+/**
+ * 
+ */
+app.post("/api/loans/lend", async (req, res) => {
+  try {
+
+  } catch (error) {
+
+  }
+});
+
+/**
+ * 
+ */
+app.post("/api/loans/request", async (req, res) => {
+  try {
+
+  } catch (error) {
+
+  }
+});
+
+/**
+ * 
+ */
+app.get("/api/loans/:loanId/status", async (req, res) => {
+  try {
+
+  } catch (error) {
+
+  }
+});
+
+/**
+ * 
+ */
+app.post("/api/loans/:loanId/repay", async (req, res) => {
+  try {
+
+  } catch (error) {
+
+  }
+});
+
+/**
+ * 
+ */
+app.post("/api/exchange/crypto-to-fiat", async (req, res) => {
+  try {
+
+  } catch (error) {
+
+  }
+});
+
+
+/**
+ * 
+ */
+app.post("/api/exchange/fiat-to-crypto", async (req, res) => {
+  try {
+
+  } catch (error) {
+
+  }
+});
+
+
+/**
+ * 
+ */
+app.get("/api/exchange/rates", async (req, res) => {
+  try {
+
+  } catch (error) {
+
+  }
+});
+
+/*
+ * The client (user) generates a transaction on the frontend (e.g., using Soroban SDK).
+ * This transaction (in XDR format) is sent to the backend, where the passkey server signs it with the user's private key.
+ * The signed transaction is sent to the blockchain (Stellar network) for execution. 
+ */
 app.post("/api/send", async (req, res) => {
   try {
     const xdr = req.body.xdr;
@@ -26,6 +145,10 @@ app.post("/api/send", async (req, res) => {
   }
 });
 
+/**
+ * Retrieves the list of signers associated with the given contract ID.
+ * Sends the data back to the client in JSON format.
+ */
 app.get("/api/signers/:contractId", async (req, res) => {
   try {
     const signers = await passkeyServer.getSigners(req.params.contractId);
